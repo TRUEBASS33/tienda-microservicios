@@ -1,0 +1,402 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ---------- Barra superior ---------- */
+
+.barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.9rem 1.5rem;
+  background: var(--superficie);
+  border-bottom: 1px solid var(--borde);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.menu button {
+  background: transparent;
+  color: var(--texto);
+}
+
+.menu button:hover:not(:disabled) {
+  background: var(--fondo);
+}
+
+.menu button.activo {
+  background: #dbeafe;
+  color: var(--primario);
+  font-weight: 600;
+}
+
+.menu .secundario {
+  border: 1px solid var(--borde);
+}
+
+.usuario {
+  color: var(--texto-suave);
+  margin-left: 0.5rem;
+  font-size: 0.95rem;
+}
+
+/* ---------- Contenido ---------- */
+
+.contenido {
+  flex: 1;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.contenido h2 {
+  margin-bottom: 1rem;
+}
+
+.pie {
+  text-align: center;
+  padding: 1.2rem;
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+}
+
+.estado {
+  text-align: center;
+  color: var(--texto-suave);
+  padding: 2rem 0;
+}
+
+.centrado {
+  text-align: center;
+}
+
+.error {
+  color: var(--peligro);
+  background: #fee2e2;
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  margin: 0.6rem 0;
+}
+
+.caja-error {
+  text-align: center;
+  background: #fee2e2;
+  color: var(--peligro);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.aviso {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: #dcfce7;
+  color: #166534;
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.cerrar {
+  background: transparent;
+  color: inherit;
+  padding: 0 0.4rem;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.cerrar:hover:not(:disabled) {
+  background: transparent;
+  opacity: 0.7;
+}
+
+/* ---------- Catálogo ---------- */
+
+.grilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  padding: 1.1rem;
+}
+
+.tarjeta .descripcion {
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  flex: 1;
+}
+
+.precio {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.stock {
+  font-size: 0.85rem;
+  color: var(--exito);
+}
+
+.stock.agotado {
+  color: var(--peligro);
+}
+
+/* ---------- Carrito ---------- */
+
+.lista-carrito,
+.lista-pedidos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.fila-carrito {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  align-items: center;
+  gap: 1rem;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+}
+
+.datos-producto {
+  display: flex;
+  flex-direction: column;
+}
+
+.precio-unitario {
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+}
+
+.cantidad {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.cantidad span {
+  min-width: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.subtotal {
+  font-weight: 600;
+  min-width: 5.5rem;
+  text-align: right;
+}
+
+button.secundario {
+  background: var(--superficie);
+  color: var(--texto);
+  border: 1px solid var(--borde);
+  padding: 0.3rem 0.7rem;
+}
+
+button.secundario:hover:not(:disabled) {
+  background: var(--fondo);
+}
+
+button.peligro {
+  background: transparent;
+  color: var(--peligro);
+  padding: 0.3rem 0.6rem;
+}
+
+button.peligro:hover:not(:disabled) {
+  background: #fee2e2;
+}
+
+.resumen {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.6rem;
+  margin-top: 1.2rem;
+}
+
+.total {
+  font-size: 1.3rem;
+}
+
+.nota {
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+}
+
+/* ---------- Pedidos ---------- */
+
+.pedido {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.cabecera-pedido {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  background: transparent;
+  color: var(--texto);
+  border-radius: 0;
+  padding: 0.9rem 1rem;
+  text-align: left;
+}
+
+.cabecera-pedido:hover:not(:disabled) {
+  background: var(--fondo);
+}
+
+.cabecera-pedido span:first-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.cabecera-pedido small {
+  color: var(--texto-suave);
+}
+
+.insignia {
+  background: #dbeafe;
+  color: var(--primario);
+  border-radius: 999px;
+  padding: 0.15rem 0.7rem;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+}
+
+.detalle-pedido {
+  border-top: 1px solid var(--borde);
+  padding: 0.8rem 1rem 1rem;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid var(--borde);
+}
+
+th {
+  color: var(--texto-suave);
+  font-weight: 600;
+}
+
+/* ---------- Formulario ---------- */
+
+.formulario {
+  max-width: 380px;
+  margin: 0 auto;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.formulario form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.formulario label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.formulario label small {
+  color: var(--texto-suave);
+  font-weight: 400;
+}
+
+.cambio-modo {
+  margin-top: 1rem;
+  text-align: center;
+  color: var(--texto-suave);
+  font-size: 0.95rem;
+}
+
+button.enlace {
+  background: transparent;
+  color: var(--primario);
+  padding: 0;
+  text-decoration: underline;
+}
+
+button.enlace:hover:not(:disabled) {
+  background: transparent;
+  color: var(--primario-hover);
+}
+
+/* ---------- Móvil ---------- */
+
+@media (max-width: 640px) {
+  .barra {
+    padding: 0.8rem 1rem;
+  }
+
+  .contenido {
+    padding: 1rem;
+  }
+
+  .fila-carrito {
+    grid-template-columns: 1fr auto;
+  }
+
+  .subtotal {
+    text-align: left;
+  }
+
+  .resumen {
+    align-items: stretch;
+  }
+}

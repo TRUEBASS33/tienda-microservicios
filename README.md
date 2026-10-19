@@ -6,6 +6,14 @@ Backend de una tienda en línea dividido en **3 microservicios independientes** 
 
 > Proyecto de portafolio para practicar arquitectura de microservicios, autenticación con JWT y contenedores.
 
+## Capturas del frontend
+
+### Catálogo
+![Catálogo de productos](docs/catalogo.png)
+
+### Mis pedidos
+![Mis pedidos](docs/pedidos.png)
+
 ## Arquitectura
 
 ```mermaid
