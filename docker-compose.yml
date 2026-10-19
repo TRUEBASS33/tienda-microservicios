@@ -1,0 +1,74 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-tienda}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-tienda_pass}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-tienda}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks: [interna]
+
+  usuarios-service:
+    build: ./usuarios-service
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-tienda}:${POSTGRES_PASSWORD:-tienda_pass}@db:5432/usuarios_db
+      JWT_SECRET: ${JWT_SECRET:-cambia-este-secreto-en-produccion}
+      INTERNAL_KEY: ${INTERNAL_KEY:-clave-interna-de-ejemplo}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@tienda.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [interna]
+
+  productos-service:
+    build: ./productos-service
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-tienda}:${POSTGRES_PASSWORD:-tienda_pass}@db:5432/productos_db
+      JWT_SECRET: ${JWT_SECRET:-cambia-este-secreto-en-produccion}
+      INTERNAL_KEY: ${INTERNAL_KEY:-clave-interna-de-ejemplo}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [interna]
+
+  pedidos-service:
+    build: ./pedidos-service
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-tienda}:${POSTGRES_PASSWORD:-tienda_pass}@db:5432/pedidos_db
+      JWT_SECRET: ${JWT_SECRET:-cambia-este-secreto-en-produccion}
+      INTERNAL_KEY: ${INTERNAL_KEY:-clave-interna-de-ejemplo}
+      USUARIOS_URL: http://usuarios-service:3001
+      PRODUCTOS_URL: http://productos-service:3002
+    depends_on:
+      db:
+        condition: service_healthy
+      usuarios-service:
+        condition: service_started
+      productos-service:
+        condition: service_started
+    networks: [interna]
+
+  gateway:
+    image: nginx:1.27-alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./gateway/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - usuarios-service
+      - productos-service
+      - pedidos-service
+    networks: [interna]
+
+volumes:
+  pgdata:
+
+networks:
+  interna:

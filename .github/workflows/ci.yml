@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  integracion:
+    name: Levantar con Docker Compose y correr la prueba de humo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Construir y levantar los servicios
+        run: docker compose up -d --build
+
+      - name: Esperar al gateway
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fs http://localhost:8080/productos > /dev/null; then
+              echo "Servicios listos"; exit 0
+            fi
+            sleep 2
+          done
+          echo "Los servicios no arrancaron a tiempo"
+          docker compose logs
+          exit 1
+
+      - name: Prueba de humo
+        run: bash scripts/smoke-test.sh
+
+      - name: Mostrar logs si falló
+        if: failure()
+        run: docker compose logs
+
+      - name: Apagar
+        if: always()
+        run: docker compose down -v
